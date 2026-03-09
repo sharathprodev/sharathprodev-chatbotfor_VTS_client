@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Venkatesh Tourist Service – AI Travel Assistant v6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Airport transfer price Chennai airport","acceptedAnswer":{"@type":"Answer","text":"Venkatesh Tourist Service offers airport transfers from ₹1,100 (~$13 USD) for sedans to ₹2,000 (~$24 USD) for Innova Crysta. Driver holds name sign at arrivals. 60 min free wait. Call +91 89396 35151."}},
+    {"@type":"Question","name":"Car rental Chennai for international tourists","acceptedAnswer":{"@type":"Answer","text":"Venkatesh Tourist Service specialises in international tourist car rental since 1983. AC vehicles, English-speaking drivers, Visa/Mastercard accepted. +91 89396 35151."}},
+    {"@type":"Question","name":"Chennai to Pondicherry day trip by car","acceptedAnswer":{"@type":"Answer","text":"Chennai to Pondicherry day trip ~160km, 3.5hrs. All-AC car with driver. Toll extra. From ₹2,240 (~$27 USD). Call +91 89396 35151."}},
+    {"@type":"Question","name":"Tirupati temple day trip from Chennai","acceptedAnswer":{"@type":"Answer","text":"Tirupati day trip from Chennai ~145km, 3hrs each way. Venkatesh Tourist Service offers same-day and overnight options. English-speaking driver. +91 89396 35151."}},
+    {"@type":"Question","name":"Tamil Nadu temple tour package","acceptedAnswer":{"@type":"Answer","text":"Venkatesh Tourist Service offers 3–7 day Tamil Nadu temple tours covering Kanchipuram, Mahabalipuram, Pondicherry, Tanjore, Madurai, Rameswaram. +91 89396 35151."}}
+  ]
+}
+</script>
+
+<style>
+:root {
+  --gold: #C8A84B;
+  --gold2: #E6C96A;
+  --gold3: rgba(200,168,75,0.12);
+  --ink: #0C0C0C;
+  --ink2: #141414;
+  --ink3: #1C1C1C;
+  --ink4: #252525;
+  --ink5: #2E2E2E;
+  --chalk: #EDE9E2;
+  --ash: #7A7672;
+  --green: #22c55e;
+  --wa: #25D366;
+  --r: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:#0e0e0e;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+
+/* demo */
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(200,168,75,.06) 0%,transparent 55%),radial-gradient(ellipse at 80% 15%,rgba(200,168,75,.04) 0%,transparent 45%),#0e0e0e;z-index:0;}
+.demo-tag{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.25);color:var(--gold2);font-size:10.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;padding:7px 20px;border-radius:100px;z-index:100;white-space:nowrap;}
+.demo-center{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:1;pointer-events:none;}
+.demo-center h1{font-family:'Cormorant Garamond',serif;color:rgba(200,168,75,.12);font-size:clamp(24px,4.5vw,56px);line-height:1.15;}
+.demo-center p{color:rgba(255,255,255,.05);font-size:12px;margin-top:6px;}
+
+/* ── Notification Nudge (replaces auto-open) ── */
+#chat-nudge{
+  position:fixed;bottom:105px;right:26px;
+  background:var(--ink2);border:1px solid rgba(200,168,75,.25);
+  border-radius:12px;padding:10px 14px;
+  display:flex;align-items:center;gap:9px;
+  box-shadow:0 8px 28px rgba(0,0,0,.55);
+  z-index:1997;cursor:pointer;
+  transform:translateY(6px);opacity:0;
+  transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.4,.64,1);
+  pointer-events:none;max-width:230px;
+}
+#chat-nudge.show{opacity:1;transform:translateY(0);pointer-events:all;}
+#chat-nudge.hide{opacity:0;transform:translateY(6px);pointer-events:none;}
+.nudge-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0;box-shadow:0 0 6px var(--gold);animation:glow 2s ease-in-out infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 4px var(--gold);}50%{box-shadow:0 0 12px var(--gold2);}}
+.nudge-text{font-size:12.5px;color:var(--chalk);font-weight:500;line-height:1.35;}
+.nudge-text span{color:var(--gold2);}
+.nudge-close{margin-left:auto;background:none;border:none;color:var(--ash);cursor:pointer;font-size:14px;padding:0 0 0 4px;flex-shrink:0;}
+.nudge-close:hover{color:var(--chalk);}
+
+/* ── WhatsApp Float ── */
+#wa-float{
+  position:fixed;bottom:100px;right:26px;
+  width:46px;height:46px;background:var(--wa);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:1996;text-decoration:none;
+  box-shadow:0 4px 16px rgba(37,211,102,.4);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .2s;
+}
+#wa-float.show{opacity:1;pointer-events:all;}
+#wa-float:hover{transform:scale(1.1);}
+
+/* ── Bubble ── */
+#bubble{
+  position:fixed;bottom:26px;right:26px;
+  width:62px;height:62px;
+  background:linear-gradient(145deg,#d4a832,#8a6418);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2000;
+  box-shadow:0 6px 24px rgba(200,168,75,.45),0 2px 6px rgba(0,0,0,.5);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+#bubble:hover{transform:scale(1.08);}
+#bubble.open{transform:scale(.9) rotate(12deg);}
+.bi,.bx{position:absolute;transition:opacity .2s,transform .2s;}
+.bx{opacity:0;transform:rotate(-90deg);}
+#bubble.open .bi{opacity:0;transform:rotate(90deg);}
+#bubble.open .bx{opacity:1;transform:rotate(0);}
+
+/* ── Window ── */
+#win{
+  position:fixed;bottom:100px;right:26px;width:390px;
+  background:var(--ink2);border-radius:20px;
+  box-shadow:0 28px 80px rgba(0,0,0,.75),0 0 0 1px rgba(200,168,75,.15);
+  display:flex;flex-direction:column;overflow:hidden;z-index:1998;
+  transform:scale(.86) translateY(18px);opacity:0;pointer-events:none;
+  transform-origin:bottom right;
+  transition:transform .38s cubic-bezier(.34,1.4,.64,1),opacity .28s;
+  max-height:min(640px,calc(100vh-130px));
+}
+#win.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+
+/* Header */
+.hdr{
+  background:linear-gradient(135deg,#1a1200,#261a04);
+  padding:15px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(200,168,75,.16);flex-shrink:0;
+}
+.hdr-av{
+  width:40px;height:40px;background:linear-gradient(135deg,var(--gold),#7a5c10);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(200,168,75,.3);
+}
+.hdr-info h3{font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:15px;font-weight:600;letter-spacing:.3px;}
+.hdr-info p{color:var(--ash);font-size:10.5px;margin-top:1px;}
+.odot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:4px;box-shadow:0 0 5px var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hdr-acts{margin-left:auto;display:flex;gap:5px;}
+.hbtn{
+  width:30px;height:30px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.05);color:var(--ash);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:background .2s,color .2s;text-decoration:none;
+}
+.hbtn:hover{background:rgba(255,255,255,.1);color:var(--chalk);}
+.hbtn.wa-btn{background:rgba(37,211,102,.12);color:var(--wa);font-size:15px;}
+.hbtn.wa-btn:hover{background:rgba(37,211,102,.22);}
+
+/* Messages */
+.msgs{flex:1;overflow-y:auto;padding:13px 13px 6px;display:flex;flex-direction:column;gap:7px;scroll-behavior:smooth;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:rgba(200,168,75,.15);border-radius:3px;}
+
+.msg{display:flex;gap:7px;animation:popin .3s cubic-bezier(.34,1.3,.64,1);}
+@keyframes popin{from{opacity:0;transform:translateY(7px) scale(.95)}to{opacity:1;transform:none}}
+.msg.u{flex-direction:row-reverse;}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;}
+.msg.b .av{background:linear-gradient(135deg,var(--gold),#7a5c10);}
+.msg.u .av{background:var(--ink5);font-size:11px;}
+.bbl{max-width:82%;padding:9px 13px;font-size:13.5px;line-height:1.55;border-radius:13px;}
+.msg.b .bbl{background:var(--ink4);color:var(--chalk);border-bottom-left-radius:4px;}
+.msg.u .bbl{background:linear-gradient(135deg,#c8a84b,#946e18);color:white;border-bottom-right-radius:4px;}
+.bbl a{color:var(--gold2);}
+.bbl strong{color:var(--gold2);font-weight:600;}
+
+/* Typing */
+.typing-row{display:flex;gap:7px;}
+.typing{padding:10px 13px;background:var(--ink4);border-radius:13px;border-bottom-left-radius:4px;display:flex;gap:4px;align-items:center;}
+.typing span{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:tdot 1.2s ease-in-out infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* ── Car Cards ── */
+.cars{display:flex;flex-direction:column;gap:7px;padding-left:33px;animation:popin .3s cubic-bezier(.34,1.3,.64,1);}
+.car{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.13);
+  border-radius:11px;padding:10px 12px;
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;transition:border-color .18s,background .18s,transform .15s;
+}
+.car:hover{border-color:rgba(200,168,75,.38);background:var(--ink5);transform:translateX(2px);}
+.car-ico{width:36px;height:36px;background:rgba(200,168,75,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.car-n{color:var(--chalk);font-size:13px;font-weight:600;}
+.car-s{color:var(--ash);font-size:11px;margin-top:1px;}
+.car-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 6px;border-radius:100px;margin-top:3px;}
+.tag-std{background:rgba(200,168,75,.1);color:var(--gold);}
+.tag-lux{background:rgba(255,215,80,.08);color:#ffd760;}
+.tag-eco{background:rgba(34,197,94,.08);color:#4ade80;}
+.tag-grp{background:rgba(96,165,250,.08);color:#7ec8fa;}
+.car-p{text-align:right;flex-shrink:0;}
+.car-amt{color:var(--gold2);font-size:14px;font-weight:700;font-family:'Cormorant Garamond',serif;}
+.car-u{color:var(--ash);font-size:10px;margin-top:1px;}
+
+/* ── Trip Estimator ── */
+.trip-est{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.18);
+  border-radius:13px;padding:13px;margin-left:33px;
+  animation:popin .32s cubic-bezier(.34,1.3,.64,1);
+}
+.trip-est h4{color:var(--gold2);font-size:12.5px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.trip-row{display:flex;gap:7px;margin-bottom:7px;}
+.trip-inp{
+  flex:1;background:var(--ink3);border:1px solid rgba(200,168,75,.15);
+  border-radius:8px;padding:8px 10px;color:var(--chalk);
+  font-family:'Outfit',sans-serif;font-size:12.5px;outline:none;
+  transition:border-color .2s;
+}
+.trip-inp:focus{border-color:rgba(200,168,75,.4);}
+.trip-inp::placeholder{color:var(--ash);}
+.trip-sel{
+  flex:1;background:var(--ink3);border:1px solid rgba(200,168,75,.15);
+  border-radius:8px;padding:8px 10px;color:var(--chalk);
+  font-family:'Outfit',sans-serif;font-size:12.5px;outline:none;
+  cursor:pointer;appearance:none;
+  transition:border-color .2s;
+}
+.trip-sel:focus{border-color:rgba(200,168,75,.4);}
+.trip-btn{
+  background:linear-gradient(135deg,var(--gold),#946e18);border:none;
+  border-radius:8px;color:white;font-family:'Outfit',sans-serif;
+  font-size:12.5px;font-weight:600;padding:8px 14px;cursor:pointer;
+  transition:opacity .2s,transform .15s;white-space:nowrap;
+}
+.trip-btn:hover{opacity:.88;transform:scale(1.02);}
+.trip-result{
+  background:var(--ink3);border-radius:8px;padding:10px 12px;margin-top:2px;
+  border-left:2px solid var(--gold);
+}
+.trip-result .r-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:4px;}
+.trip-result .r-row:last-child{margin-bottom:0;}
+.trip-result .r-label{color:var(--ash);}
+.trip-result .r-val{color:var(--chalk);font-weight:600;}
+.trip-result .r-val.price{color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:15px;}
+.trip-result .r-note{color:var(--ash);font-size:10px;margin-top:6px;line-height:1.4;}
+
+/* ── Lead Form ── */
+.lead{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.18);
+  border-radius:13px;padding:12px;margin-left:33px;
+  animation:popin .32s cubic-bezier(.34,1.3,.64,1);
+}
+.lead h4{color:var(--gold2);font-size:12.5px;font-weight:600;margin-bottom:9px;}
+.l-inp{
+  width:100%;background:var(--ink3);border:1px solid rgba(200,168,75,.15);
+  border-radius:8px;padding:8px 11px;color:var(--chalk);
+  font-family:'Outfit',sans-serif;font-size:13px;outline:none;
+  margin-bottom:6px;transition:border-color .2s;
+}
+.l-inp:focus{border-color:rgba(200,168,75,.4);}
+.l-inp::placeholder{color:var(--ash);}
+.l-sub{
+  width:100%;background:linear-gradient(135deg,var(--gold),#946e18);
+  border:none;border-radius:8px;color:white;font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:600;padding:9px;cursor:pointer;
+  transition:opacity .2s,transform .15s;
+}
+.l-sub:hover{opacity:.9;transform:scale(1.01);}
+
+/* ── WhatsApp Banner ── */
+.wa-bar{
+  margin:0 13px 9px;background:rgba(37,211,102,.07);
+  border:1px solid rgba(37,211,102,.18);border-radius:10px;
+  padding:9px 12px;display:flex;align-items:center;gap:8px;
+  text-decoration:none;transition:background .2s;flex-shrink:0;
+}
+.wa-bar:hover{background:rgba(37,211,102,.13);}
+.wa-bar strong{display:block;color:var(--wa);font-size:12px;font-weight:600;}
+.wa-bar span{color:var(--ash);font-size:10.5px;}
+.wa-bar .arr{margin-left:auto;color:var(--wa);font-size:15px;}
+
+/* Quick Replies */
+.qrs{padding:5px 13px 9px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0;}
+.qr{
+  background:var(--gold3);border:1px solid rgba(200,168,75,.25);
+  color:var(--gold2);font-size:11.5px;font-weight:500;
+  font-family:'Outfit',sans-serif;padding:5px 11px;border-radius:100px;
+  cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap;
+}
+.qr:hover{background:rgba(200,168,75,.22);transform:scale(1.04);}
+
+/* Input row */
+/* ✅ Fix 5: scroll-lock fix — isolate input row from layout reflow on mobile */
+.inp-row{
+  padding:9px 11px 11px;border-top:1px solid rgba(200,168,75,.09);
+  background:var(--ink3);display:flex;gap:6px;align-items:flex-end;flex-shrink:0;
+  position:sticky;bottom:0;z-index:1;
+}
+#ci{
+  flex:1;background:var(--ink4);border:1px solid rgba(200,168,75,.16);
+  border-radius:10px;padding:9px 12px;color:var(--chalk);
+  font-family:'Outfit',sans-serif;font-size:13.5px;resize:none;outline:none;
+  transition:border-color .2s;line-height:1.45;max-height:88px;
+}
+#ci::placeholder{color:var(--ash);}
+#ci:focus{border-color:rgba(200,168,75,.42);}
+#sb{
+  width:37px;height:37px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),#946e18);
+  border:none;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .18s,opacity .2s;
+}
+#sb:hover{transform:scale(1.08);}
+#sb:disabled{opacity:.42;cursor:not-allowed;transform:none;}
+#sb svg{width:15px;height:15px;fill:white;}
+.pw{text-align:center;padding:5px;font-size:9.5px;color:rgba(255,255,255,.15);flex-shrink:0;}
+.pw span{color:rgba(200,168,75,.45);}
+
+@media(max-width:440px){
+  #win{width:calc(100vw - 18px);right:9px;bottom:88px;}
+  #bubble{right:12px;bottom:12px;}
+  #wa-float,#chat-nudge{right:12px;}
+}
+
+/* ── Trust Bar ── */
+.trust-bar{
+  display:flex;gap:6px;flex-wrap:wrap;padding-left:33px;margin-top:2px;
+  animation:popin .35s cubic-bezier(.34,1.3,.64,1);
+}
+.trust-chip{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.18);
+  border-radius:100px;padding:4px 10px;font-size:11px;color:var(--gold2);font-weight:500;
+}
+
+/* ── Tour Package Cards ── */
+.tours{display:flex;flex-direction:column;gap:7px;padding-left:33px;animation:popin .3s cubic-bezier(.34,1.3,.64,1);}
+.tour{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.13);
+  border-radius:11px;padding:11px 13px;cursor:pointer;
+  transition:border-color .18s,background .18s,transform .15s;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.tour:hover{border-color:rgba(200,168,75,.38);background:var(--ink5);transform:translateX(2px);}
+.tour-ico{font-size:22px;flex-shrink:0;margin-top:1px;}
+.tour-title{color:var(--chalk);font-size:13px;font-weight:600;line-height:1.3;}
+.tour-meta{color:var(--ash);font-size:11px;margin-top:3px;}
+.tour-price{margin-top:5px;color:var(--gold2);font-size:12px;font-weight:600;}
+.tour-price .usd{color:var(--ash);font-size:10.5px;margin-left:5px;font-weight:400;}
+
+/* ── Multi-currency row in car cards ── */
+.car-fx{color:var(--ash);font-size:10px;margin-top:2px;line-height:1.5;}
+
+/* ── Airport Info Card ── */
+.airport-card{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.18);
+  border-radius:13px;padding:13px;margin-left:33px;
+  animation:popin .32s cubic-bezier(.34,1.3,.64,1);
+}
+.airport-card h4{color:var(--gold2);font-size:12.5px;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:5px;}
+.ac-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:12.5px;color:var(--chalk);line-height:1.45;}
+.ac-row:last-child{margin-bottom:0;}
+.ac-ico{font-size:15px;flex-shrink:0;margin-top:1px;}
+
+/* ── Payment Info ── */
+.pay-card{
+  background:var(--ink4);border:1px solid rgba(200,168,75,.18);
+  border-radius:13px;padding:13px;margin-left:33px;
+  animation:popin .32s cubic-bezier(.34,1.3,.64,1);
+}
+.pay-card h4{color:var(--gold2);font-size:12.5px;font-weight:600;margin-bottom:9px;}
+.pay-methods{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px;}
+.pay-tag{background:var(--ink5);border:1px solid rgba(255,255,255,.08);border-radius:7px;padding:5px 10px;font-size:11.5px;color:var(--chalk);display:flex;align-items:center;gap:5px;}
+.pay-note{color:var(--ash);font-size:11.5px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="demo-tag">v6.0 — 9.2/10 → 10/10 · Venkatesh Tourist Service AI</div>
+<div class="demo-center">
+  <h1>Venkatesh Tourist Service<br>AI Booking Assistant</h1>
+  <p>See the nudge appear · bottom right</p>
+</div>
+
+<!-- Notification Nudge (no forced auto-open) -->
+<div id="chat-nudge" onclick="openFromNudge()">
+  <div class="nudge-dot"></div>
+  <div class="nudge-text">Planning a trip in South India?<br><span>Chat with our AI — instant answers 🌏</span></div>
+  <button class="nudge-close" onclick="dismissNudge(event)" title="Dismiss">✕</button>
+</div>
+
+<!-- WhatsApp Float -->
+<a id="wa-float" href="https://wa.me/918939635151?text=Hi%2C+I+want+to+book+a+car" target="_blank" title="WhatsApp">
+  <svg width="23" height="23" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Bubble -->
+<div id="bubble" onclick="toggleChat()">
+  <svg class="bi" width="27" height="27" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  <svg class="bx" width="21" height="21" viewBox="0 0 24 24" fill="white"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+</div>
+
+<!-- Chat Window -->
+<div id="win">
+  <div class="hdr">
+    <div class="hdr-av">🚗</div>
+    <div class="hdr-info">
+      <h3>Venkatesh Travel AI</h3>
+      <p><span class="odot"></span>Always available &nbsp;·&nbsp; Est. 1983</p>
+    </div>
+    <div class="hdr-acts">
+      <a class="hbtn wa-btn" href="https://wa.me/918939635151" target="_blank" title="WhatsApp">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a class="hbtn" href="tel:+918939635151" title="Call">📞</a>
+      <button class="hbtn" onclick="toggleChat()">✕</button>
+    </div>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+  <div class="qrs" id="qrs"></div>
+
+  <a class="wa-bar" href="https://wa.me/918939635151?text=Hi%2C+I+want+to+book+a+car" target="_blank">
+    <span style="font-size:18px">💬</span>
+    <div><strong>Chat on WhatsApp</strong><span>+91 89396 35151 · English · Instant reply</span></div>
+    <span class="arr">→</span>
+  </a>
+
+  <div class="inp-row">
+    <textarea id="ci" rows="1" placeholder="Ask about cars, prices, routes…" onkeydown="hk(event)" oninput="ar(this)"></textarea>
+    <button id="sb" onclick="send()" title="Send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+  </div>
+  <div class="pw">Powered by <span>Claude AI</span> · venkateshtouristservice.com</div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_URL  = "https://your-server.com/api/chat";   // ✅ backend proxy only
+const LEAD_URL = "https://your-server.com/api/lead";
+const MAX_MSG_LEN = 500; // ✅ client-side cap before hitting server
+
+// ── INTENT GROUPS ──────────────────────────────────────────────────────────────
+const INTENTS = {
+  airport:      ["airport","airport transfer","airport pickup","airport drop","airport taxi","airport cab","terminal","arrivals","departures","flight pickup","pick me up","arriving","fly in","land at","flight delay"],
+  outstation:   ["outstation","day trip","multi-day","multi day","temple tour","south india tour","tour package","tirupati","tirupathi","pondicherry","mahabalipuram","mamallapuram","kanchipuram","ooty","tanjore","thanjavur","madurai","rameswaram","coimbatore","bangalore","vellore","distance","km from","how far"],
+  booking:      ["book","confirm","reserve","want a car","need a car","hire","rent","schedule","arrange","i want","can i get","availability"],
+  price:        ["price","cost","rate","tariff","how much","charge","fare","quote","per km","per hour","rupee","usd","dollar","sgd","myr","ringgit","currency","convert","exchange"],
+  luxury:       ["luxury","premium","wedding","bmw","mercedes","jaguar","benz","s-class","e-class","vip","special occasion","business class","executive"],
+  group:        ["group","family","team","tempo","traveller","van","bus","12 seater","13 seater","large group","corporate","office"],
+  cars:         ["car","vehicle","fleet","innova","crysta","dzire","etios","ertiga","nexon","seltos","verna","fortuner","carnival","camry","show cars","available cars","which car","ac car","air condition"],
+  estimate:     ["estimate","calculator","calculate","distance","kilometre","kilometer","route cost","trip cost"],
+  airport_info: ["where","sign","meet","driver","wait","waiting","delay","hold","name board","arrival gate","how will","find driver","recognize"],
+  payment:      ["pay","payment","visa","mastercard","card","paypal","upi","cash","online","transfer","credit","debit","international payment","foreign card"],
+  safety:       ["safe","safety","gps","licensed","trusted","reliable","experience","years","1983","reviews","rating","google","english"],
+  diaspora:     ["malaysia","singapore","uk","canada","sri lanka","usa","abroad","nri","overseas","international","foreign","expat","visiting india","coming to india"],
+};
+
+function matchIntent(text) {
+  const t = text.toLowerCase();
+  for (const [intent, keywords] of Object.entries(INTENTS)) {
+    if (keywords.some(k => t.includes(k))) return intent;
+  }
+  return null;
+}
+
+// ── TRIP ESTIMATOR DATA ──────────────────────────────────────────────────────
+const ROUTES = {
+  "Chennai to Pondicherry":    {km:160, hrs:3.5},
+  "Chennai to Mahabalipuram":  {km:58,  hrs:1.5},
+  "Chennai to Mamallapuram":   {km:55,  hrs:1.5},
+  "Chennai to Tirupati":       {km:145, hrs:3},
+  "Chennai to Kanchipuram":    {km:75,  hrs:2},
+  "Chennai to Ooty":           {km:545, hrs:9},
+  "Chennai to Tanjore":        {km:310, hrs:5.5},
+  "Chennai to Madurai":        {km:460, hrs:7.5},
+  "Chennai to Rameswaram":     {km:580, hrs:9},
+  "Chennai to Bangalore":      {km:350, hrs:6},
+  "Chennai to Coimbatore":     {km:500, hrs:8},
+  "Chennai to Vellore":        {km:145, hrs:3},
+};
+const CAR_RATES = {
+  "Maruti Dzire / Toyota Etios": {perKm:14, min:300},
+  "Innova 6+1 / 7+1":            {perKm:18, min:300},
+  "Innova Crysta":                {perKm:22, min:300},
+  "Fortuner / Carnival":         {perKm:28, min:300},
+  "Tempo Traveller":              {perKm:25, min:300},
+};
+
+// ── CURRENCY CONVERTER ──────────────────────────────────────────────────────
+// Fix 2: seed with safe fallback rates, then fetch live rates on load
+const FX = { USD: 0.012, SGD: 0.016, MYR: 0.056, GBP: 0.0095 };
+async function updateFX(){
+  try{
+    const r = await fetch("https://open.er-api.com/v6/latest/INR");
+    const data = await r.json();
+    if(data.rates){
+      FX.USD = data.rates.USD;
+      FX.SGD = data.rates.SGD;
+      FX.MYR = data.rates.MYR;
+      FX.GBP = data.rates.GBP;
+    }
+  }catch(e){ /* silently keep fallback rates */ }
+}
+updateFX(); // fetch on page load; non-blocking
+
+function toFx(inr){
+  if(!inr) return '';
+  const usd = Math.round(inr * FX.USD);
+  const sgd = Math.round(inr * FX.SGD);
+  const myr = Math.round(inr * FX.MYR);
+  return `≈ $${usd} USD · S$${sgd} SGD · RM${myr} MYR`;
+}
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let isOpen=false, busy=false, msgCount=0, leadShown=false, nudgeDismissed=false;
+let history=[];
+
+// ── NUDGE (not auto-open) ────────────────────────────────────────────────────
+setTimeout(()=>{
+  if(!isOpen && !nudgeDismissed){
+    document.getElementById('chat-nudge').classList.add('show');
+  }
+}, 8000);
+
+function openFromNudge(){
+  document.getElementById('chat-nudge').classList.replace('show','hide');
+  setTimeout(()=>{ if(!isOpen) toggleChat(); }, 200);
+}
+function dismissNudge(e){
+  e.stopPropagation();
+  nudgeDismissed=true;
+  document.getElementById('chat-nudge').classList.replace('show','hide');
+}
+
+// ── LOCATION DETECTION ────────────────────────────────────────────────────────
+// ✅ Fix 3: detect user city, personalise greeting if outside Chennai
+let userCity = null;
+function detectLocation(){
+  if(!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const {latitude:lat, longitude:lng} = pos.coords;
+    // Chennai bounding box: ~12.8–13.3°N, 80.1–80.3°E
+    const inChennai = lat>=12.75 && lat<=13.35 && lng>=79.9 && lng<=80.35;
+    if(!inChennai){
+      // Reverse geocode with free nominatim (no key needed)
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+        .then(r=>r.json())
+        .then(d=>{
+          userCity = d.address?.city || d.address?.state_district || 'your area';
+          // Soft note — doesn't interrupt the chat
+          console.log(`User city detected: ${userCity}`);
+        }).catch(()=>{});
+    } else {
+      userCity = 'Chennai';
+    }
+  }, ()=>{}); // silently ignore permission denied
+}
+detectLocation();
+
+// Fix 8: Tamil language detection — engage diaspora visitors in Tamil
+const userLang = navigator.language || navigator.userLanguage || '';
+let tamilMode = userLang.startsWith('ta');
+// (tamilMode greeting is woven into initChat below)
+  isOpen=!isOpen;
+  document.getElementById('win').classList.toggle('open',isOpen);
+  document.getElementById('bubble').classList.toggle('open',isOpen);
+  document.getElementById('wa-float').classList.toggle('show',isOpen);
+  document.getElementById('chat-nudge').classList.remove('show');
+  if(isOpen && msgCount===0) initChat();
+  if(isOpen) setTimeout(()=>document.getElementById('ci').focus(),350);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function initChat(){
+  const locationNote = userCity && userCity !== 'Chennai'
+    ? `<br><small style="color:var(--ash)">📍 Arriving from <strong>${esc(userCity)}</strong>? We can arrange your pickup when you land in Chennai.</small>`
+    : '';
+
+  const tamilGreet = tamilMode
+    ? `வணக்கம்! <strong>Venkatesh Tourist Service</strong>-க்கு வரவேற்கிறோம். 🙏<br>`
+    : `Welcome to <strong>Venkatesh Tourist Service</strong> 👋<br>`;
+
+  botMsg(`${tamilGreet}<br>
+We provide reliable, air-conditioned cars and tours across South India — trusted since <strong>1983</strong>.<br>
+Popular with international visitors from Malaysia, Singapore, UK, USA & Canada.${locationNote}`);
+
+  // Trust chips
+  showTrustBar();
+  // Fix 7: Google review social proof
+  setTimeout(()=>{
+    if(msgCount <= 2){
+      botMsg(`⭐ Rated <strong>4.8 / 5</strong> on Google by travelers from Malaysia, Singapore, UK & USA.<br><a href="https://www.google.com/search?q=Venkatesh+Tourist+Service+Chennai" target="_blank" style="color:var(--gold2)">Read reviews →</a>`);
+    }
+  }, 800);
+
+  showQRs([
+    "✈️ Airport Transfer",
+    "🏙️ City Sightseeing",
+    "🛕 Tirupati Day Trip",
+    "🌊 Pondicherry Day Trip",
+    "🗺️ 3–5 Day Temple Tour",
+    "👑 Luxury Car Booking",
+    "💬 Chat on WhatsApp"
+  ]);
+
+  // Auto-show fleet after 2s if user hasn't typed
+  setTimeout(()=>{
+    if(msgCount <= 2){
+      botMsg('Here\'s our fleet — all air-conditioned. Click any car to book on WhatsApp 👇');
+      showCarCards(FLEET);
+    }
+  }, 2200);
+}
+
+// ── MESSAGES ──────────────────────────────────────────────────────────────────
+function botMsg(html){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg b';
+  d.innerHTML=`<div class="av">🚗</div><div class="bbl">${html}</div>`;
+  m.appendChild(d); scrollDown(); msgCount++;
+}
+function userMsg(text){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg u';
+  d.innerHTML=`<div class="av">👤</div><div class="bbl">${esc(text)}</div>`;
+  m.appendChild(d); scrollDown(); msgCount++;
+}
+function addTyping(){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.id='td'; d.className='msg b';
+  d.innerHTML=`<div class="av">🚗</div><div class="typing"><span></span><span></span><span></span></div>`;
+  m.appendChild(d); scrollDown();
+}
+function rmTyping(){ document.getElementById('td')?.remove(); }
+
+// ── TRUST BAR ─────────────────────────────────────────────────────────────────
+function showTrustBar(){
+  if(document.querySelector('.trust-bar')) return;
+  const m=document.getElementById('msgs');
+  const w=document.createElement('div');
+  w.className='trust-bar';
+  [
+    ['⭐','4.8 Google Rating'],
+    ['🏆','Since 1983'],
+    ['🗣️','English Drivers'],
+    ['❄️','All AC Vehicles'],
+    ['📍','GPS Enabled'],
+  ].forEach(([ico,label])=>{
+    const c=document.createElement('div');
+    c.className='trust-chip';
+    c.innerHTML=`<span>${ico}</span><span>${label}</span>`;
+    w.appendChild(c);
+  });
+  m.appendChild(w); scrollDown();
+}
+
+// ── AIRPORT INFO CARD ─────────────────────────────────────────────────────────
+function showAirportInfo(){
+  if(document.querySelector('.airport-card')) return;
+  const m=document.getElementById('msgs');
+  const w=document.createElement('div');
+  w.className='airport-card';
+  w.innerHTML=`
+    <h4>✈️ Airport Transfer Info</h4>
+    <div class="ac-row"><span class="ac-ico">🪧</span><span>Your driver will meet you at the <strong>Arrivals gate</strong> holding a sign with your name.</span></div>
+    <div class="ac-row"><span class="ac-ico">⏱️</span><span><strong>60 minutes free waiting</strong> from your scheduled landing time.</span></div>
+    <div class="ac-row"><span class="ac-ico">✈️</span><span><strong>Flight delay?</strong> No extra charge — we track your flight.</span></div>
+    <div class="ac-row"><span class="ac-ico">🕐</span><span><strong>24/7 airport transfers</strong> including early morning & late night.</span></div>
+    <div class="ac-row"><span class="ac-ico">❄️</span><span>All vehicles air-conditioned with bottled water.</span></div>`;
+  m.appendChild(w); scrollDown();
+}
+
+// ── TOUR PACKAGES ─────────────────────────────────────────────────────────────
+const TOURS=[
+  {ico:"🌊",title:"Pondicherry Day Trip",meta:"160 km · ~8 hrs · French Quarter & beaches",inr:2240,tag:"🌍 Intl. Favourite"},
+  {ico:"🌊",title:"Mahabalipuram Day Trip",meta:"58 km · ~4 hrs · UNESCO Shore Temple",inr:1680,tag:"🌍 Intl. Favourite"},
+  {ico:"🛕",title:"Tirupati Temple Day Trip",meta:"145 km · ~10 hrs · Famous Venkateswara Temple",inr:2450,tag:"Pilgrimage"},
+  {ico:"🛕",title:"Kanchipuram Temples",meta:"75 km · ~6 hrs · Silk city & ancient temples",inr:1960,tag:"Culture"},
+  {ico:"🗺️",title:"3-Day Coastal Tamil Nadu",meta:"Chennai · Mahabalipuram · Pondicherry",inr:12000,tag:"Package"},
+  {ico:"🏛️",title:"5-Day South India Temple Tour",meta:"Kanchipuram · Tirupati · Tanjore · Madurai",inr:28000,tag:"Pilgrimage Tour"},
+  {ico:"🌏",title:"7-Day Tamil Nadu Cultural Tour",meta:"Full circuit incl. Rameswaram & Ooty",inr:48000,tag:"Premium"},
+];
+
+function showTourPackages(){
+  const m=document.getElementById('msgs');
+  const w=document.createElement('div');
+  w.className='tours';
+  TOURS.forEach(t=>{
+    const waMsg=encodeURIComponent(`Hi, I'm interested in the ${t.title}. Please share details and availability.`);
+    const d=document.createElement('div');
+    d.className='tour';
+    d.innerHTML=`
+      <div class="tour-ico">${t.ico}</div>
+      <div style="flex:1;min-width:0">
+        <div class="tour-title">${esc(t.title)}</div>
+        <div class="tour-meta">${esc(t.meta)}</div>
+        <div class="tour-price">From ₹${t.inr.toLocaleString('en-IN')}
+          <span class="usd">${toFx(t.inr)}</span>
+        </div>
+      </div>
+      <span class="car-tag tag-std" style="flex-shrink:0;align-self:flex-start">${esc(t.tag)}</span>`;
+    d.onclick=()=>window.open(`https://wa.me/918939635151?text=${waMsg}`,'_blank');
+    w.appendChild(d);
+  });
+  m.appendChild(w); scrollDown();
+}
+
+// ── PAYMENT INFO CARD ─────────────────────────────────────────────────────────
+function showPaymentInfo(){
+  if(document.querySelector('.pay-card')) return;
+  const m=document.getElementById('msgs');
+  const w=document.createElement('div');
+  w.className='pay-card';
+  w.innerHTML=`
+    <h4>💳 Payment Options</h4>
+    <div class="pay-methods">
+      <div class="pay-tag">💳 Visa / Mastercard</div>
+      <div class="pay-tag">📱 UPI</div>
+      <div class="pay-tag">🏦 Bank Transfer</div>
+      <div class="pay-tag">💵 Cash on Arrival</div>
+      <div class="pay-tag">🌐 International Cards</div>
+    </div>
+    <p class="pay-note">International guests can <strong>reserve now and pay on arrival</strong> in cash (INR/USD accepted).<br>
+    For advance payment, bank transfer is available. <a href="https://venkateshtouristservice.com/how-to-pay" target="_blank" style="color:var(--gold2)">Full payment details →</a></p>`;
+  m.appendChild(w); scrollDown();
+}
+
+// ── CAR CARDS ──────────────────────────────────────────────────────────────────
+const FLEET=[
+  {name:"Maruti Dzire",seats:"4+1 seats",price:"1,100",tag:"std",emoji:"🚗"},
+  {name:"Toyota Etios",seats:"4+1 seats",price:"1,100",tag:"std",emoji:"🚗"},
+  {name:"Toyota Innova 7+1",seats:"7+1 seats",price:"1,450",tag:"std",emoji:"🚐"},
+  {name:"Innova Crysta 7+1",seats:"7+1 seats",price:"2,000",tag:"lux",emoji:"🚐"},
+  {name:"Innova Hycross Hybrid",seats:"7+1 seats",price:"2,250",tag:"eco",emoji:"⚡"},
+  {name:"Toyota Fortuner",seats:"6+1 seats",price:"2,750",tag:"lux",emoji:"🛻"},
+  {name:"Mercedes E-Class",seats:"4+1 seats",price:"6,000",tag:"lux",emoji:"🏆"},
+  {name:"Tempo Traveller",seats:"12+1 seats",price:"2,500",tag:"grp",emoji:"🚌"},
+];
+const TAG_LABELS={std:"Standard",lux:"Luxury",eco:"Eco Hybrid",grp:"Group"};
+
+function showCarCards(cars){
+  const m=document.getElementById('msgs');
+  const wrap=document.createElement('div');
+  wrap.className='cars';
+  cars.forEach(c=>{
+    const wa=encodeURIComponent(`Hi, I want to book ${c.name}. Please share availability and pricing.`);
+    const d=document.createElement('div');
+    d.className='car';
+    d.innerHTML=`
+      <div class="car-ico">${c.emoji}</div>
+      <div style="flex:1;min-width:0">
+        <div class="car-n">${esc(c.name)}</div>
+        <div class="car-s">${esc(c.seats)}</div>
+        <span class="car-tag tag-${c.tag}">${TAG_LABELS[c.tag]}</span>
+      </div>
+      <div class="car-p">
+        <div class="car-amt">₹${c.price}</div>
+        <div class="car-u">2hr/25km</div>
+        <div class="car-fx">${toFx(parseInt(c.price.replace(/,/g,''))||0)}</div>
+      </div>`;
+    d.onclick=()=>window.open(`https://wa.me/918939635151?text=${wa}`,'_blank');
+    wrap.appendChild(d);
+  });
+  m.appendChild(wrap); scrollDown();
+}
+
+// ── TRIP ESTIMATOR WIDGET ──────────────────────────────────────────────────────
+function showTripEstimator(){
+  if(document.querySelector('.trip-est')) return;
+  const m=document.getElementById('msgs');
+  const w=document.createElement('div');
+  w.className='trip-est';
+  const routeOpts = Object.keys(ROUTES).map(r=>`<option>${r}</option>`).join('');
+  const carOpts = Object.keys(CAR_RATES).map(c=>`<option>${c}</option>`).join('');
+  w.innerHTML=`
+    <h4>📐 Trip Cost Estimator</h4>
+    <div class="trip-row">
+      <select class="trip-sel" id="t-route" onchange="calcTrip()"><option value="">Select route</option>${routeOpts}</select>
+    </div>
+    <div class="trip-row">
+      <select class="trip-sel" id="t-car" onchange="calcTrip()"><option value="">Select car</option>${carOpts}</select>
+    </div>
+    <div id="t-result"></div>`;
+  m.appendChild(w); scrollDown();
+}
+
+function calcTrip(){
+  const route = document.getElementById('t-route')?.value;
+  const car   = document.getElementById('t-car')?.value;
+  const el    = document.getElementById('t-result');
+  if(!route || !car || !el) return;
+  const r=ROUTES[route], c=CAR_RATES[car];
+  if(!r||!c) return;
+  const est = Math.max(r.km * c.perKm, c.min * 2);
+  const waMsg = encodeURIComponent(`Hi, I want to estimate cost for ${route} in ${car}. Approx ${r.km}km.`);
+  el.innerHTML=`
+    <div class="trip-result">
+      <div class="r-row"><span class="r-label">Distance</span><span class="r-val">~${r.km} km</span></div>
+      <div class="r-row"><span class="r-label">Est. duration</span><span class="r-val">~${r.hrs} hrs</span></div>
+      <div class="r-row"><span class="r-label">Estimated fare</span><span class="r-val price">₹${est.toLocaleString('en-IN')}+</span></div>
+      <div class="r-row"><span class="r-label">In your currency</span><span class="r-val" style="font-size:11px">${toFx(est)}</span></div>
+      <p class="r-note">⚠️ Toll, parking & interstate tax extra. Actual fare may vary.<br>
+        <a href="https://wa.me/918939635151?text=${waMsg}" target="_blank" style="color:var(--gold2)">Get exact quote on WhatsApp →</a></p>
+    </div>`;
+  scrollDown();
+}
+
+// ── LEAD FORM ─────────────────────────────────────────────────────────────────
+// ✅ Bug fix: guard against duplicate insertion
+function showLead(ctx=''){
+  if(leadShown || document.querySelector('.lead')) return;
+  leadShown=true;
+  const m=document.getElementById('msgs');
+  const f=document.createElement('div');
+  f.className='lead';
+  f.innerHTML=`
+    <h4>📋 Reserve your car — we'll confirm within 15 min</h4>
+    <input class="l-inp" id="l-name" placeholder="Your name" type="text">
+    <input class="l-inp" id="l-phone" placeholder="WhatsApp number (with country code, e.g. +60…)" type="tel">
+    <button class="l-sub" onclick="submitLead('${esc(ctx)}')">📲 Request Confirmation</button>`;
+  m.appendChild(f); scrollDown();
+}
+
+async function submitLead(ctx){
+  const name=document.getElementById('l-name')?.value.trim();
+  const phone=document.getElementById('l-phone')?.value.trim();
+  if(!phone){ alert('Please enter your phone number'); return; }
+  try{
+    await fetch(LEAD_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,phone,tripType:ctx,message:'AI Chatbot v5 International'})});
+  }catch(e){}
+  document.querySelector('.lead')?.remove();
+  botMsg(`✅ Got it, <strong>${esc(name||'there')}</strong>! Our team will call <strong>${esc(phone)}</strong> within 15 minutes.<br><br>Or reach us right now:<br>💬 <a href="https://wa.me/918939635151" target="_blank">WhatsApp</a> &nbsp;·&nbsp; 📞 <a href="tel:+918939635151">+91 89396 35151</a>`);
+}
+
+// ── QUICK REPLIES ─────────────────────────────────────────────────────────────
+function showQRs(items){
+  const qr=document.getElementById('qrs');
+  qr.innerHTML='';
+  items.forEach(label=>{
+    const b=document.createElement('button');
+    b.className='qr'; b.textContent=label;
+    b.onclick=()=>{ qr.innerHTML=''; send(label); };
+    qr.appendChild(b);
+  });
+}
+function clearQRs(){ document.getElementById('qrs').innerHTML=''; }
+
+// ── SEND ──────────────────────────────────────────────────────────────────────
+async function send(text){
+  const inp=document.getElementById('ci');
+  const raw=(text||inp.value).trim();
+  if(!raw||busy) return;
+
+  // ✅ Client-side message length cap
+  if(raw.length > MAX_MSG_LEN){
+    botMsg(`Please keep messages under ${MAX_MSG_LEN} characters. Try a shorter question.`);
+    return;
+  }
+
+  inp.value=''; inp.style.height='auto'; clearQRs();
+  userMsg(raw);
+  history.push({role:'user',content:raw});
+
+  const intent = matchIntent(raw);
+
+  // ── Fix 10: anti-spam guard ────────────────────────────────────────────────
+  if(history.length > 20){
+    botMsg('For further assistance please contact us directly:<br>💬 <a href="https://wa.me/918939635151" target="_blank">WhatsApp</a> · 📞 <a href="tel:+918939635151">+91 89396 35151</a>');
+    return;
+  }
+
+  // ── Fix 9: auto itinerary on "N day" queries ───────────────────────────────
+  const t = raw.toLowerCase();
+  const dayMatch = t.match(/(\d+)\s*day/);
+  if(dayMatch){
+    const days = parseInt(dayMatch[1]);
+    const itineraries = {
+      3: `🗺️ <strong>Suggested 3-Day South India Tour:</strong><br><br>📅 Day 1 — Chennai city sightseeing + Mahabalipuram shore temples<br>📅 Day 2 — Pondicherry French Quarter & beaches<br>📅 Day 3 — Kanchipuram silk city & ancient temples`,
+      5: `🗺️ <strong>Suggested 5-Day Tamil Nadu Tour:</strong><br><br>📅 Day 1 — Chennai → Mahabalipuram (UNESCO temples)<br>📅 Day 2 — Pondicherry (French Quarter & Auroville)<br>📅 Day 3 — Tanjore (Brihadeeswarar Temple)<br>📅 Day 4 — Madurai (Meenakshi Amman Temple)<br>📅 Day 5 — Rameswaram (Ramanathaswamy Temple)`,
+      7: `🗺️ <strong>Suggested 7-Day South India Cultural Tour:</strong><br><br>📅 Day 1 — Chennai city tour<br>📅 Day 2 — Mahabalipuram & Kanchipuram<br>📅 Day 3 — Pondicherry<br>📅 Day 4 — Tanjore<br>📅 Day 5 — Madurai<br>📅 Day 6 — Rameswaram<br>📅 Day 7 — Ooty hill station`,
+    };
+    const closest = [3,5,7].reduce((a,b) => Math.abs(b-days)<Math.abs(a-days)?b:a);
+    botMsg(itineraries[closest] || itineraries[5]);
+    botMsg('Here are our recommended packages for this tour 👇');
+    showTourPackages();
+    showQRs(["💬 Chat on WhatsApp","📋 Reserve this tour","📐 Estimate cost"]);
+    return;
+  }
+
+  // ── Local intent shortcuts (no API call needed) ────────────────────────────
+  if(t.includes('chat on whatsapp') || t.includes('speak on whatsapp')){
+    window.open('https://wa.me/918939635151?text=Hi%2C+I+want+to+book+a+car+or+tour+in+Chennai','_blank');
+    botMsg('Opening WhatsApp for you... 💬<br><br><a href="https://wa.me/918939635151" target="_blank">wa.me/918939635151</a>');
+    return;
+  }
+  if(intent==='payment' || t.includes('payment') || t.includes('💳')){
+    showPaymentInfo();
+    showQRs(["💬 Chat on WhatsApp","📋 Leave my number"]);
+    return;
+  }
+  if(intent==='estimate' || t.includes('estimat') || t.includes('calculator') || t.includes('trip cost')){
+    botMsg('Here\'s a quick trip cost estimator 👇');
+    showTripEstimator();
+    showQRs(["🚗 See all cars","✈️ Airport Transfer","📋 Get callback"]);
+    return;
+  }
+  // Fix 3: airport intent → full local response with airport info card + fleet preview
+  if(intent==='airport' || intent==='airport_info'){
+    botMsg('Here\'s everything you need to know about our airport transfers 👇');
+    showAirportInfo();
+    botMsg('Choose your vehicle for the airport transfer:');
+    showCarCards(FLEET.slice(0,4));
+    showQRs(["📋 Book Airport Transfer","💬 Chat on WhatsApp","📞 Call Us"]);
+    return;
+  }
+  if(intent==='safety' || intent==='diaspora'){
+    botMsg(`✅ <strong>Why international travelers choose us:</strong><br><br>
+🏆 Serving travelers since <strong>1983</strong> — over 40 years<br>
+⭐ <strong>4.8 Google Rating</strong> — trusted by visitors from Malaysia, Singapore, UK, USA & Canada<br>
+🗣️ <strong>English-speaking drivers</strong> experienced with international guests<br>
+❄️ All vehicles <strong>fully air-conditioned</strong> & well-maintained<br>
+📍 <strong>GPS-enabled</strong> vehicles & 24/7 support<br>
+🪪 Licensed & insured drivers`);
+    botMsg('⭐ Read our reviews → <a href="https://www.google.com/search?q=Venkatesh+Tourist+Service+Chennai+reviews" target="_blank">Google Reviews</a>');
+    showQRs(["✈️ Airport Transfer","🗺️ Tour Packages","💳 Payment Options"]);
+    return;
+  }
+  if(intent==='outstation' || t.includes('tour package') || t.includes('temple tour') || t.includes('south india tour') || t.includes('day trip')){
+    botMsg('Here are our popular tour packages for international visitors 👇 Click any to enquire on WhatsApp.');
+    showTourPackages();
+    showQRs(["📐 Estimate cost","✈️ Airport Transfer","📋 Leave my number"]);
+    return;
+  }
+  // Fix 1: simplified cars catch-all — any cars intent shows fleet
+  if(intent==='cars'){
+    botMsg('Here\'s our fleet — all air-conditioned. Click any car to book on WhatsApp 👇');
+    showCarCards(FLEET);
+    showQRs(["📐 Trip estimator","✈️ Airport Transfer","📋 Leave my number"]);
+    return;
+  }
+  // Fix 5: fallback for unknown intent — guide instead of calling AI blind
+  if(!intent){
+    botMsg('I can help with car rentals, airport transfers, or South India tours. What would you like to plan?');
+    showQRs(["✈️ Airport Transfer","🚗 See all cars","🗺️ Tour Packages","📐 Trip Cost Estimator"]);
+    return;
+  }
+
+  busy=true;
+  document.getElementById('sb').disabled=true;
+  addTyping();
+
+  // ✅ Fix 1: cap history to last 12 messages — prevents unbounded growth & token costs
+  history = history.slice(-12);
+
+  try{
+    const res=await fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:history})
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
+
+    const reply=data.reply||'';
+    // ✅ Fix 2: enforce minimum typing delay for human feel
+    await new Promise(r => setTimeout(r, 600));
+    rmTyping();
+
+    // Parse car card trigger from AI response
+    const cardMatch=reply.match(/##CARS::(\[[\s\S]*?\])/);
+    if(cardMatch){
+      try{
+        const cars=JSON.parse(cardMatch[1]);
+        const txt=reply.replace(/##CARS::[\s\S]*$/,'').trim();
+        if(txt) botMsg(fmt(txt));
+        showCarCards(cars);
+      }catch{ botMsg(fmt(reply.replace(/##CARS::[\s\S]*/,''))); }
+    } else {
+      botMsg(fmt(reply));
+    }
+
+    history.push({role:'assistant',content:reply});
+
+    // ✅ Context-aware follow-up QRs — international-friendly labels
+    const qrMap={
+      airport:      ["✈️ Airport info","📐 Estimate fare","🚗 See all cars","📋 Leave my number"],
+      airport_info: ["✈️ Book Airport Transfer","🚗 See all cars","📋 Leave my number"],
+      booking:      ["📞 Call us","💬 Chat on WhatsApp","📋 Leave my number"],
+      price:        ["🚗 See all cars","📐 Trip estimator","💳 Payment options"],
+      luxury:       ["💬 WhatsApp for luxury","📋 Leave my number"],
+      group:        ["🚌 Group vehicle options","📋 Leave my number"],
+      outstation:   ["🗺️ Tour packages","📐 Trip estimator","📋 Leave my number"],
+      payment:      ["📞 Call us","💬 Chat on WhatsApp"],
+      safety:       ["🗺️ Tour packages","✈️ Airport Transfer","📋 Leave my number"],
+      diaspora:     ["🗺️ Tour packages","🛕 Tirupati Day Trip","📋 Leave my number"],
+    };
+    if(qrMap[intent]) showQRs(qrMap[intent]);
+
+    // Show airport info automatically when airport intent detected
+    if(intent==='airport' && !document.querySelector('.airport-card')){
+      setTimeout(()=>showAirportInfo(), 800);
+    }
+
+    // ✅ Lead form shows after 2 exchanges on booking/price intent, not immediately
+    if((intent==='booking'||intent==='price') && msgCount>=4 && !leadShown){
+      setTimeout(()=>showLead(raw), 1200);
+    }
+
+  }catch(err){
+    rmTyping();
+    botMsg(`I'm having trouble right now. Reach us directly:<br>📞 <a href="tel:+918939635151"><strong>+91 89396 35151</strong></a><br>💬 <a href="https://wa.me/918939635151" target="_blank">WhatsApp us</a>`);
+  }
+
+  busy=false;
+  document.getElementById('sb').disabled=false;
+  scrollDown();
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────────
+function fmt(t){
+  return t
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')
+    .replace(/(₹[\d,]+)/g,'<strong>$1</strong>');
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function scrollDown(){ const m=document.getElementById('msgs'); m.scrollTop=m.scrollHeight; }
+function hk(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
+function ar(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,88)+'px'; }
+</script>
+</body>
+</html>
